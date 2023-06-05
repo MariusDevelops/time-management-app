@@ -1,11 +1,20 @@
 // import Image from 'next/image'
 import TaskForm from '@/components/taskForm';
+import ResultsTable from '@/components/resultsTable';
 
 export default function Home() {
+  const calculatedResults = [
+    { date: '2023-01-01', hours: 2 },
+    { date: '2023-01-03', hours: 3 },
+    { date: '2023-01-04', hours: 1 },
+    { date: '2023-01-05', hours: 2 },
+  ];
+
   return (
     <main>
       <h1 className='text-center py-5'>Time Management App</h1>
       <TaskForm />
+      <ResultsTable results={calculatedResults} />
     </main>
     // <main className="flex min-h-screen flex-col items-center justify-between p-24">
     //   <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">

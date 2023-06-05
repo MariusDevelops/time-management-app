@@ -10,6 +10,18 @@ label input {
   margin: 10px;
 }
 
+table,
+thead,
+tr,
+th,
+tbody,
+td {
+  border: solid 2px rgb(14 165 233);
+  padding: 8px 16px;
+}
+
+/* className='border-solid border-2 border-sky-500 px-4 py-2' */
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
