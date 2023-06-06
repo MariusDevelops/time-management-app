@@ -1,4 +1,3 @@
-'use client';
 import React, { useState } from 'react';
 import { addTask } from '@/utils/dataManagement';
 
@@ -8,6 +7,43 @@ const TaskForm = ({ onAddTask }) => {
   const [deadline, setDeadline] = useState('');
   const [totalTaskHours, setTotalTaskHours] = useState('');
   const [occupiedHours, setOccupiedHours] = useState('');
+  const [busyDays, setBusyDays] = useState([]);
+
+  const generateBusyDays = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const days = [];
+    for (
+      let date = startDate;
+      date <= endDate;
+      date.setDate(date.getDate() + 1)
+    ) {
+      days.push({ date: new Date(date), busyHours: 0 });
+    }
+    setBusyDays(days);
+  };
+
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+    if (deadline) {
+      generateBusyDays(e.target.value, deadline);
+    }
+  };
+
+  const handleDeadlineChange = (e) => {
+    setDeadline(e.target.value);
+    if (startDate) {
+      generateBusyDays(startDate, e.target.value);
+    }
+  };
+
+  const handleBusyHoursChange = (index, value) => {
+    setBusyDays((prevBusyDays) =>
+      prevBusyDays.map((day, i) =>
+        i === index ? { ...day, busyHours: value } : day
+      )
+    );
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,6 +55,7 @@ const TaskForm = ({ onAddTask }) => {
       deadline,
       totalTaskHours,
       occupiedHours,
+      busyDays,
     };
 
     addTask(newTask);
@@ -35,6 +72,7 @@ const TaskForm = ({ onAddTask }) => {
     setDeadline('');
     setTotalTaskHours('');
     setOccupiedHours('');
+    setBusyDays([]);
   };
 
   return (
@@ -50,20 +88,23 @@ const TaskForm = ({ onAddTask }) => {
       <br />
       <label>
         Start Date:
-        <input
-          type='date'
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
+        <input type='date' value={startDate} onChange={handleStartDateChange} />
       </label>
       <label>
         Deadline:
-        <input
-          type='date'
-          value={deadline}
-          onChange={(e) => setDeadline(e.target.value)}
-        />
+        <input type='date' value={deadline} onChange={handleDeadlineChange} />
       </label>
+      <br />
+      {busyDays.map((day, index) => (
+        <label key={index}>
+          {day.date.toDateString()}:
+          <input
+            type='number'
+            value={day.busyHours}
+            onChange={(e) => handleBusyHoursChange(index, e.target.value)}
+          />
+        </label>
+      ))}
       <br />
       <label>
         Total Hours to Complete Task:
