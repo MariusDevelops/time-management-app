@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from 'react';
+import { addTask } from '@/utils/dataManagement';
 
 const TaskForm = () => {
-  const [task, setTask] = useState('');
+  const [taskName, setTaskName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [deadline, setDeadline] = useState('');
   const [totalTaskHours, setTotalTaskHours] = useState('');
@@ -11,13 +12,24 @@ const TaskForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('Task:', task);
+    const newTask = {
+      id: Date.now(),
+      taskName,
+      startDate,
+      deadline,
+      totalTaskHours,
+      occupiedHours,
+    };
+
+    addTask(newTask);
+
+    console.log('Task Name:', taskName);
     console.log('Start Date:', startDate);
     console.log('Deadline:', deadline);
     console.log('Total Task Hours:', totalTaskHours);
     console.log('Occupied Hours:', occupiedHours);
 
-    setTask('');
+    setTaskName('');
     setStartDate('');
     setDeadline('');
     setTotalTaskHours('');
@@ -30,8 +42,8 @@ const TaskForm = () => {
         Task Name:
         <input
           type='text'
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
         />
       </label>
       <br />
