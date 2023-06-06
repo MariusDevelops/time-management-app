@@ -28,7 +28,7 @@ const ResultsTable = ({ tasks }) => {
                 <td>{task.startDate}</td>
                 <td>{task.deadline}</td>
                 <td>{task.totalTaskHours}</td>
-                <td>{task.occupiedHours}</td>
+                <td>{task.totalOccupiedHours}</td>
               </tr>
             ))}
           </tbody>

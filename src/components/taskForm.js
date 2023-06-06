@@ -6,7 +6,6 @@ const TaskForm = ({ onAddTask }) => {
   const [startDate, setStartDate] = useState('');
   const [deadline, setDeadline] = useState('');
   const [totalTaskHours, setTotalTaskHours] = useState('');
-  const [occupiedHours, setOccupiedHours] = useState('');
   const [busyDays, setBusyDays] = useState([]);
 
   const generateBusyDays = (start, end) => {
@@ -18,7 +17,7 @@ const TaskForm = ({ onAddTask }) => {
       date <= endDate;
       date.setDate(date.getDate() + 1)
     ) {
-      days.push({ date: new Date(date), busyHours: 0 });
+      days.push({ date: new Date(date), busyHours: '' });
     }
     setBusyDays(days);
   };
@@ -48,30 +47,28 @@ const TaskForm = ({ onAddTask }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const totalOccupiedHours = busyDays.reduce(
+      (sum, day) => sum + (day.busyHours ? Number(day.busyHours) : 0),
+      0
+    );
+
     const newTask = {
       id: Date.now(),
       taskName,
       startDate,
       deadline,
       totalTaskHours,
-      occupiedHours,
+      totalOccupiedHours,
       busyDays,
     };
 
     addTask(newTask);
     onAddTask(newTask);
 
-    console.log('Task Name:', taskName);
-    console.log('Start Date:', startDate);
-    console.log('Deadline:', deadline);
-    console.log('Total Task Hours:', totalTaskHours);
-    console.log('Occupied Hours:', occupiedHours);
-
     setTaskName('');
     setStartDate('');
     setDeadline('');
     setTotalTaskHours('');
-    setOccupiedHours('');
     setBusyDays([]);
   };
 
@@ -106,21 +103,15 @@ const TaskForm = ({ onAddTask }) => {
         </label>
       ))}
       <br />
+      Total Occupied Hours:{' '}
+      {busyDays.reduce((sum, day) => sum + Number(day.busyHours), 0)}
+      <br />
       <label>
         Total Hours to Complete Task:
         <input
           type='number'
           value={totalTaskHours}
           onChange={(e) => setTotalTaskHours(e.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Occupied Hours per Day:
-        <input
-          type='number'
-          value={occupiedHours}
-          onChange={(e) => setOccupiedHours(e.target.value)}
         />
       </label>
       <br />
