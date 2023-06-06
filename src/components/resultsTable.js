@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ResultsTable = ({ results }) => {
+const ResultsTable = ({ tasks }) => {
   return (
     <div className='flex justify-center text-center'>
       <div className='flex flex-col'>
@@ -14,15 +14,21 @@ const ResultsTable = ({ results }) => {
         <table>
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Hours</th>
+              <th>Task Name</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Total Task Hours</th>
+              <th>Total Occupied Hours</th>
             </tr>
           </thead>
           <tbody>
-            {results.map((result) => (
-              <tr key={result.date}>
-                <td>{result.date}</td>
-                <td>{result.hours}</td>
+            {tasks.map((task) => (
+              <tr key={task.id}>
+                <td>{task.taskName}</td>
+                <td>{task.startDate}</td>
+                <td>{task.deadline}</td>
+                <td>{task.totalTaskHours}</td>
+                <td>{task.occupiedHours}</td>
               </tr>
             ))}
           </tbody>

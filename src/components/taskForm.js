@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { addTask } from '@/utils/dataManagement';
 
-const TaskForm = () => {
+const TaskForm = ({ onAddTask }) => {
   const [taskName, setTaskName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [deadline, setDeadline] = useState('');
@@ -22,6 +22,7 @@ const TaskForm = () => {
     };
 
     addTask(newTask);
+    onAddTask(newTask);
 
     console.log('Task Name:', taskName);
     console.log('Start Date:', startDate);
