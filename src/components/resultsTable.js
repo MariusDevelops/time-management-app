@@ -17,22 +17,69 @@ const ResultsTable = ({ tasks }) => {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task) => (
-              <tr key={task.id}>
-                <td>{task.taskName}</td>
-                <td>{task.startDate}</td>
-                <td>{task.deadline}</td>
-                <td>{task.totalTaskHours}</td>
-                <td>{task.totalOccupiedHours}</td>
-                <td>
-                  {task.busyDays.map((day, index) => (
-                    <div key={index}>
-                      {day.date.toDateString()}: {day.taskHours}
-                    </div>
-                  ))}
-                </td>
-              </tr>
-            ))}
+            {tasks.map((task) => {
+              const totalAvailableTime = task.busyDays.reduce(
+                (sum, day) =>
+                  sum + (24 - (day.busyHours ? Number(day.busyHours) : 0)),
+                0
+              );
+              let updatedBusyDays = [];
+              if (totalAvailableTime >= task.totalTaskHours) {
+                let remainingTaskHours = task.totalTaskHours;
+                const taskHoursPerDay =
+                  remainingTaskHours / task.busyDays.length;
+                updatedBusyDays = task.busyDays.map((day) => {
+                  const availableHours =
+                    24 - (day.busyHours ? Number(day.busyHours) : 0);
+                  if (remainingTaskHours > availableHours) {
+                    remainingTaskHours -= availableHours;
+                    return { ...day, taskHours: availableHours };
+                  } else if (remainingTaskHours > taskHoursPerDay) {
+                    remainingTaskHours -= taskHoursPerDay;
+                    return { ...day, taskHours: taskHoursPerDay };
+                  } else {
+                    const taskHours = remainingTaskHours;
+                    remainingTaskHours = 0;
+                    return { ...day, taskHours };
+                  }
+                });
+                while (remainingTaskHours > 0) {
+                  updatedBusyDays = updatedBusyDays.map((day) => {
+                    const availableHours =
+                      24 -
+                      (day.busyHours ? Number(day.busyHours) : 0) -
+                      day.taskHours;
+                    if (remainingTaskHours > availableHours) {
+                      remainingTaskHours -= availableHours;
+                      return {
+                        ...day,
+                        taskHours: day.taskHours + availableHours,
+                      };
+                    } else {
+                      const taskHours = day.taskHours + remainingTaskHours;
+                      remainingTaskHours = 0;
+                      return { ...day, taskHours };
+                    }
+                  });
+                }
+              }
+              return (
+                <tr key={task.id}>
+                  <td>{task.taskName}</td>
+                  <td>{task.startDate}</td>
+                  <td>{task.deadline}</td>
+                  <td>{task.totalTaskHours}</td>
+                  <td>{task.totalOccupiedHours}</td>
+                  <td>
+                    {updatedBusyDays.map((day, index) => (
+                      <div key={index}>
+                        {day.date.toDateString()}: {day.taskHours.toFixed(2)}
+                      </div>
+                    ))}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 
@@ -43,16 +90,52 @@ const ResultsTable = ({ tasks }) => {
             0
           );
           if (totalAvailableTime >= task.totalTaskHours) {
+            let remainingTaskHours = task.totalTaskHours;
+            const taskHoursPerDay = remainingTaskHours / task.busyDays.length;
+            let updatedBusyDays = task.busyDays.map((day) => {
+              const availableHours =
+                24 - (day.busyHours ? Number(day.busyHours) : 0);
+              if (remainingTaskHours > availableHours) {
+                remainingTaskHours -= availableHours;
+                return { ...day, taskHours: availableHours };
+              } else if (remainingTaskHours > taskHoursPerDay) {
+                remainingTaskHours -= taskHoursPerDay;
+                return { ...day, taskHours: taskHoursPerDay };
+              } else {
+                const taskHours = remainingTaskHours;
+                remainingTaskHours = 0;
+                return { ...day, taskHours };
+              }
+            });
+            while (remainingTaskHours > 0) {
+              updatedBusyDays = updatedBusyDays.map((day) => {
+                const availableHours =
+                  24 -
+                  (day.busyHours ? Number(day.busyHours) : 0) -
+                  day.taskHours;
+                if (remainingTaskHours > availableHours) {
+                  remainingTaskHours -= availableHours;
+                  return { ...day, taskHours: day.taskHours + availableHours };
+                } else {
+                  const taskHours = day.taskHours + remainingTaskHours;
+                  remainingTaskHours = 0;
+                  return { ...day, taskHours };
+                }
+              });
+            }
+
             return (
               <div key={`${task.id}-success`}>
                 <h3 className='text-green-800'>
                   You can finish the task: {task.taskName} within the given
                   time.
                 </h3>
-                <p>
-                  You can spend {task.totalTaskHours / task.busyDays.length}{' '}
-                  hours per day working on the task.
-                </p>
+                <p>You can spend:</p>
+                {updatedBusyDays.map((day, index) => (
+                  <div key={index}>
+                    {day.date.toDateString()}: {day.taskHours.toFixed(2)} hours
+                  </div>
+                ))}
               </div>
             );
           } else {
@@ -61,10 +144,13 @@ const ResultsTable = ({ tasks }) => {
                 <h3 className='text-red-800'>
                   You won't meet the deadline for the task: {task.taskName}.
                 </h3>
-                <p>
-                  You can spend {totalAvailableTime / task.busyDays.length}{' '}
-                  hours per day working on the task.
-                </p>
+                <p>You can spend:</p>
+                {task.busyDays.map((day, index) => (
+                  <div key={index}>
+                    {day.date.toDateString()}:{' '}
+                    {24 - (day.busyHours ? Number(day.busyHours) : 0)} hours
+                  </div>
+                ))}
               </div>
             );
           }
