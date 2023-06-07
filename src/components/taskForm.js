@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addTask } from '@/utils/dataManagement';
+import { addTask, setDataToLocalStorage } from '@/utils/dataManagement';
 
 const TaskForm = ({ onAddTask }) => {
   const [taskName, setTaskName] = useState('');
@@ -47,6 +47,12 @@ const TaskForm = ({ onAddTask }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const taskHoursPerDay = totalTaskHours / busyDays.length;
+    const updatedBusyDays = busyDays.map((day) => ({
+      ...day,
+      taskHours: taskHoursPerDay,
+    }));
+
     const totalOccupiedHours = busyDays.reduce(
       (sum, day) => sum + (day.busyHours ? Number(day.busyHours) : 0),
       0
@@ -59,7 +65,7 @@ const TaskForm = ({ onAddTask }) => {
       deadline,
       totalTaskHours,
       totalOccupiedHours,
-      busyDays,
+      busyDays: updatedBusyDays,
     };
 
     addTask(newTask);
