@@ -73,7 +73,8 @@ const ResultsTable = ({ tasks }) => {
                   <td>
                     {updatedBusyDays.map((day, index) => (
                       <div key={index}>
-                        {day.date.toDateString()}: {day.taskHours.toFixed(2)}
+                        {day.date.toDateString()}: {Math.floor(day.taskHours)}h{' '}
+                        {Math.round((day.taskHours % 1) * 60)}m
                       </div>
                     ))}
                   </td>
@@ -133,7 +134,8 @@ const ResultsTable = ({ tasks }) => {
                 <p>You can spend:</p>
                 {updatedBusyDays.map((day, index) => (
                   <div key={index}>
-                    {day.date.toDateString()}: {day.taskHours.toFixed(2)} hours
+                    {day.date.toDateString()}: {Math.floor(day.taskHours)}h{' '}
+                    {Math.round((day.taskHours % 1) * 60)}m hours
                   </div>
                 ))}
               </div>
