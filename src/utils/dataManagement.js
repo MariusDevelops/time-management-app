@@ -8,7 +8,14 @@ const setDataToLocalStorage = (data) => {
 };
 
 export const getAllTasks = () => {
-  return getDataFromLocalStorage();
+  const data = getDataFromLocalStorage();
+  return data.map((task) => ({
+    ...task,
+    busyDays: task.busyDays.map((day) => ({
+      ...day,
+      date: new Date(day.date),
+    })),
+  }));
 };
 
 export const addTask = (task) => {
