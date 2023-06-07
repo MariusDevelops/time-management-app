@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { addTask, setDataToLocalStorage } from '@/utils/dataManagement';
 
-const TaskForm = ({ onAddTask }) => {
+const TaskForm = ({ onAddTask, onUpdateTask, editMode, editTaskId, tasks }) => {
   const [taskName, setTaskName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [deadline, setDeadline] = useState('');
   const [totalTaskHours, setTotalTaskHours] = useState('');
   const [busyDays, setBusyDays] = useState([]);
+
+  useEffect(() => {
+    if (editMode && editTaskId) {
+      const taskToEdit = tasks.find((task) => task.id === editTaskId);
+      if (taskToEdit) {
+        setTaskName(taskToEdit.taskName);
+        setStartDate(taskToEdit.startDate);
+        setDeadline(taskToEdit.deadline);
+        setTotalTaskHours(taskToEdit.totalTaskHours);
+        setBusyDays(taskToEdit.busyDays);
+      }
+    }
+  }, [editMode, editTaskId]);
 
   const generateBusyDays = (start, end) => {
     const startDate = new Date(start);
@@ -58,18 +71,33 @@ const TaskForm = ({ onAddTask }) => {
       0
     );
 
-    const newTask = {
-      id: Date.now(),
-      taskName,
-      startDate,
-      deadline,
-      totalTaskHours,
-      totalOccupiedHours,
-      busyDays: updatedBusyDays,
-    };
+    if (!editMode) {
+      // Add new task
+      const newTask = {
+        id: Date.now(),
+        taskName,
+        startDate,
+        deadline,
+        totalTaskHours,
+        totalOccupiedHours,
+        busyDays: updatedBusyDays,
+      };
 
-    addTask(newTask);
-    onAddTask(newTask);
+      addTask(newTask);
+      onAddTask(newTask);
+    } else {
+      // Update existing task
+      const updatedTask = {
+        taskName,
+        startDate,
+        deadline,
+        totalTaskHours,
+        totalOccupiedHours,
+        busyDays: updatedBusyDays,
+      };
+
+      onUpdateTask(updatedTask);
+    }
 
     setTaskName('');
     setStartDate('');
@@ -125,7 +153,7 @@ const TaskForm = ({ onAddTask }) => {
         type='submit'
         className='border-solid border-2 border-sky-500 px-4 py-2'
       >
-        Submit
+        {editMode ? 'Update' : 'Submit'}
       </button>
     </form>
   );

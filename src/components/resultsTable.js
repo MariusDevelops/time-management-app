@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ResultsTable = ({ tasks, handleDelete }) => {
+const ResultsTable = ({ tasks, handleDelete, handleEdit }) => {
   return (
     <div className='flex justify-center text-center'>
       <div className='flex flex-col'>
@@ -14,7 +14,8 @@ const ResultsTable = ({ tasks, handleDelete }) => {
               <th>Total Task Hours</th>
               <th>Total Occupied Hours</th>
               <th>Task Hours Per Day</th>
-              <th>EDIT / Delete</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -78,6 +79,9 @@ const ResultsTable = ({ tasks, handleDelete }) => {
                         {Math.round((day.taskHours % 1) * 60)}m
                       </div>
                     ))}
+                  </td>
+                  <td>
+                    <button onClick={() => handleEdit(task.id)}>Edit</button>
                   </td>
                   <td>
                     <button onClick={() => handleDelete(task.id)}>
