@@ -2,13 +2,18 @@
 import TaskForm from '@/components/taskForm';
 import ResultsTable from '@/components/resultsTable';
 import { getAllTasks } from '@/utils/dataManagement';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { deleteTask, editTask } from '@/utils/dataManagement';
 
 export default function Home() {
-  const [tasks, setTasks] = useState(getAllTasks());
+  const [tasks, setTasks] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editTaskId, setEditTaskId] = useState(null);
+
+  useEffect(() => {
+    const initialTasks = getAllTasks();
+    setTasks(initialTasks);
+  }, []);
 
   const handleAddTask = (newTask) => {
     setTasks((prevTasks) => [...prevTasks, newTask]);
