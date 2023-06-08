@@ -1,6 +1,6 @@
 # Time Management App
 
-[Link to live app]
+[Link to Live App](https://time-management-app.vercel.app/)
 
 [Link to Github Repository](https://github.com/MariusDevelops/time-management-app)
 
