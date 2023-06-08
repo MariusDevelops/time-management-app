@@ -28,39 +28,37 @@ const ResultsTable = ({ tasks, handleDelete, handleEdit }) => {
               let updatedBusyDays = [];
               if (totalAvailableTime >= task.totalTaskHours) {
                 let remainingTaskHours = task.totalTaskHours;
-                const taskHoursPerDay =
-                  remainingTaskHours / task.busyDays.length;
-                updatedBusyDays = task.busyDays.map((day) => {
-                  const availableHours =
-                    24 - (day.busyHours ? Number(day.busyHours) : 0);
-                  if (remainingTaskHours > availableHours) {
-                    remainingTaskHours -= availableHours;
-                    return { ...day, taskHours: availableHours };
-                  } else if (remainingTaskHours > taskHoursPerDay) {
-                    remainingTaskHours -= taskHoursPerDay;
-                    return { ...day, taskHours: taskHoursPerDay };
-                  } else {
-                    const taskHours = remainingTaskHours;
-                    remainingTaskHours = 0;
-                    return { ...day, taskHours };
-                  }
-                });
+                updatedBusyDays = task.busyDays.map((day) => ({
+                  ...day,
+                  taskHours: 0,
+                }));
                 while (remainingTaskHours > 0) {
+                  const remainingDays = updatedBusyDays.filter(
+                    (day) =>
+                      24 -
+                        (day.busyHours ? Number(day.busyHours) : 0) -
+                        day.taskHours >
+                      0
+                  ).length;
+                  const additionalTaskHoursPerDay =
+                    remainingTaskHours / remainingDays;
                   updatedBusyDays = updatedBusyDays.map((day) => {
                     const availableHours =
                       24 -
                       (day.busyHours ? Number(day.busyHours) : 0) -
                       day.taskHours;
-                    if (remainingTaskHours > availableHours) {
+                    if (availableHours > additionalTaskHoursPerDay) {
+                      remainingTaskHours -= additionalTaskHoursPerDay;
+                      return {
+                        ...day,
+                        taskHours: day.taskHours + additionalTaskHoursPerDay,
+                      };
+                    } else {
                       remainingTaskHours -= availableHours;
                       return {
                         ...day,
                         taskHours: day.taskHours + availableHours,
                       };
-                    } else {
-                      const taskHours = day.taskHours + remainingTaskHours;
-                      remainingTaskHours = 0;
-                      return { ...day, taskHours };
                     }
                   });
                 }
@@ -102,35 +100,34 @@ const ResultsTable = ({ tasks, handleDelete, handleEdit }) => {
           );
           if (totalAvailableTime >= task.totalTaskHours) {
             let remainingTaskHours = task.totalTaskHours;
-            const taskHoursPerDay = remainingTaskHours / task.busyDays.length;
-            let updatedBusyDays = task.busyDays.map((day) => {
-              const availableHours =
-                24 - (day.busyHours ? Number(day.busyHours) : 0);
-              if (remainingTaskHours > availableHours) {
-                remainingTaskHours -= availableHours;
-                return { ...day, taskHours: availableHours };
-              } else if (remainingTaskHours > taskHoursPerDay) {
-                remainingTaskHours -= taskHoursPerDay;
-                return { ...day, taskHours: taskHoursPerDay };
-              } else {
-                const taskHours = remainingTaskHours;
-                remainingTaskHours = 0;
-                return { ...day, taskHours };
-              }
-            });
+            let updatedBusyDays = task.busyDays.map((day) => ({
+              ...day,
+              taskHours: 0,
+            }));
             while (remainingTaskHours > 0) {
+              const remainingDays = updatedBusyDays.filter(
+                (day) =>
+                  24 -
+                    (day.busyHours ? Number(day.busyHours) : 0) -
+                    day.taskHours >
+                  0
+              ).length;
+              const additionalTaskHoursPerDay =
+                remainingTaskHours / remainingDays;
               updatedBusyDays = updatedBusyDays.map((day) => {
                 const availableHours =
                   24 -
                   (day.busyHours ? Number(day.busyHours) : 0) -
                   day.taskHours;
-                if (remainingTaskHours > availableHours) {
+                if (availableHours > additionalTaskHoursPerDay) {
+                  remainingTaskHours -= additionalTaskHoursPerDay;
+                  return {
+                    ...day,
+                    taskHours: day.taskHours + additionalTaskHoursPerDay,
+                  };
+                } else {
                   remainingTaskHours -= availableHours;
                   return { ...day, taskHours: day.taskHours + availableHours };
-                } else {
-                  const taskHours = day.taskHours + remainingTaskHours;
-                  remainingTaskHours = 0;
-                  return { ...day, taskHours };
                 }
               });
             }

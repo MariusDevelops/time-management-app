@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addTask, setDataToLocalStorage } from '@/utils/dataManagement';
+import { addTask } from '@/utils/dataManagement';
 
 const TaskForm = ({ onAddTask, onUpdateTask, editMode, editTaskId, tasks }) => {
   const [taskName, setTaskName] = useState('');
@@ -72,7 +72,6 @@ const TaskForm = ({ onAddTask, onUpdateTask, editMode, editTaskId, tasks }) => {
     );
 
     if (!editMode) {
-      // Add new task
       const newTask = {
         id: Date.now(),
         taskName,
@@ -86,7 +85,6 @@ const TaskForm = ({ onAddTask, onUpdateTask, editMode, editTaskId, tasks }) => {
       addTask(newTask);
       onAddTask(newTask);
     } else {
-      // Update existing task
       const updatedTask = {
         taskName,
         startDate,
@@ -126,6 +124,7 @@ const TaskForm = ({ onAddTask, onUpdateTask, editMode, editTaskId, tasks }) => {
         <input type='date' value={deadline} onChange={handleDeadlineChange} />
       </label>
       <br />
+      {busyDays.length > 0 && <p>Fill Occupied Hours by Day:</p>}
       {busyDays.map((day, index) => (
         <label key={index}>
           {day.date.toDateString()}:
