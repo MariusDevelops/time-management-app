@@ -1,34 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Time Management App
 
-## Getting Started
+[Link to live app]
 
-First, run the development server:
+[Link to Github Repository](https://github.com/MariusDevelops/time-management-app)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## About
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This is a time management app built with React and Next.js. It allows users to add tasks with start dates, deadlines, and total hours to complete. The app calculates the available time for each task and displays the results in a table.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+![Screenshot of app](screenshot.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Installation
 
-## Learn More
+To run this app locally, follow these steps:
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone this repository to your local machine.
+2. Navigate to the project directory and run `npm install` to install the dependencies.
+3. Run `npm run dev` to start the development server.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To use the app, simply fill out the form with the task details and click "Submit". The results will be displayed in the table below.
 
-## Deploy on Vercel
+You can edit or delete tasks by clicking the "Edit" or "Delete" buttons in the table.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Contributions are welcome! If you have any suggestions or improvements, feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
