@@ -105,7 +105,7 @@ const TaskForm = ({ onAddTask, onUpdateTask, editMode, editTaskId, tasks }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='task-form'>
       <label>
         Task Name:
         <input
@@ -136,8 +136,12 @@ const TaskForm = ({ onAddTask, onUpdateTask, editMode, editTaskId, tasks }) => {
         </label>
       ))}
       <br />
-      Total Occupied Hours:{' '}
-      {busyDays.reduce((sum, day) => sum + Number(day.busyHours), 0)}
+      <label>
+        {' '}
+        Total Occupied Hours:
+        <br />
+        {busyDays.reduce((sum, day) => sum + Number(day.busyHours), 0)}
+      </label>
       <br />
       <label>
         Total Hours to Complete Task:

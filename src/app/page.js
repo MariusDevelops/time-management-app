@@ -37,7 +37,6 @@ export default function Home() {
 
   return (
     <main>
-      <h1 className='text-center py-5'>Time Management App</h1>
       <TaskForm
         onAddTask={handleAddTask}
         onUpdateTask={handleUpdateTask}

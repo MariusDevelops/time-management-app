@@ -2,9 +2,8 @@ import React from 'react';
 
 const ResultsTable = ({ tasks, handleDelete, handleEdit }) => {
   return (
-    <div className='flex justify-center text-center'>
+    <div className='results-table flex justify-center text-center'>
       <div className='flex flex-col'>
-        <h2>Calculated Results</h2>
         <table>
           <thead>
             <tr>

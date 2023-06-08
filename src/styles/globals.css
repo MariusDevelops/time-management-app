@@ -2,46 +2,157 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: rgb(148 163 184);
-}
-
-label input {
-  margin: 10px;
-}
-
-table,
-thead,
-tr,
-th,
-tbody,
-td {
-  border: solid 2px rgb(14 165 233);
-  padding: 8px 16px;
-}
-
-/* className='border-solid border-2 border-sky-500 px-4 py-2' */
-
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+:root {
+  --primary-color: #f0f0f0;
+  --secondary-color: #c0c0c0;
+  --accent-color: #a0a0a0;
+  --text-color: #333;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--primary-color);
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 10px 0;
+  color: var(--text-color);
+}
+
+p {
+  margin: 10px 0;
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+}
+
+input[type='text'],
+input[type='date'],
+input[type='number'] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table td,
+table th {
+  border: solid thin var(--secondary-color);
+  padding: 10px;
+  text-align: left;
+}
+
+table th {
+  background-color: var(--primary-color);
+}
+
+/* taskForm */
+
+.task-form {
+  background-color: var(--primary-color);
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.task-form input[type='text'],
+.task-form input[type='date'],
+.task-form input[type='number'] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.task-form label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+.task-form button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.task-form button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* resultsTable */
+
+.results-table {
+  background-color: var(--primary-color);
+  padding: 20px;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.results-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.results-table td,
+.results-table th {
+  border: solid thin var(--secondary-color);
+  padding: 10px;
+  text-align: left;
+}
+
+.results-table th {
+  background-color: var(--primary-color);
+}
+
+.results-table button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.results-table button:hover {
+  background-color: var(--secondary-color);
+}
